@@ -407,3 +407,43 @@ RDT 2.0: Reliable Data Transfer Over *Unreliable* Channel
         - if received correctly then sends an ACK
         - if received incorrectly then sends a NAK
     - once again, they don't know each other's state
+
+RDT 2.1:
+- sender:
+    - seq # added to packet
+    - two seq. #s (0,1) needed
+    - must check if received ACK/NAK correctly
+    - twice as many states
+        - state must remember whether expected packet should have seq # of 0 or 1
+- receiver:
+    - must ckeck if received packet is duplicate
+    - state indicates whether 0 or 1 is expected packet seq #
+    - receiver cannot know if last ACK/NAK received OK at sender
+
+RDT 2.2: NAK-free
+- instead of sending a NAK, receiver sends ACK for last successfully received packet (this must include seq #)
+- this is what TCP does
+
+RDT 3.0: Channels with errors *and* loss
+- now, we assume that the underlying channel can also lose packets
+- still need:
+    - checksums
+    - sequence #'s
+    - ACKs
+    - retransmissions
+- need even more though
+    - if no ACK received within a 'reasonable' amount of time (use countdown timer) then retransmit
+    - receiver needs to know how to handle duplicate packets
+    - sender needs to know how to handle duplicate ACKs
+- **CONCLUSION: 4 things needed**
+    1. acknowledgements
+    2. timer
+    3. sequence #'s
+    4. checksums 
+
+As is, our RDT 3.0 is quite inefficient
+- send something, have to wait a while for acknowledgment to know if sent correctly
+- pipelining is a way to make this much more effective
+- always sending, always receiving
+
+
