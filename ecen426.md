@@ -1,4 +1,5 @@
-# ECEN 426 MIDTERM 1
+# ECEN 426
+# Content for Midterm 1
 
 ## UNIT 1: NETWORKING
 
@@ -382,6 +383,8 @@ Two Socket Types:
 - TCP: reliable, byte stream-oriented
     - client must contact server & establish connection
     - server creates new TCP socket for the client
+
+# Content For Midterm 2
 
 ## UNIT 3: NETWORKING LAYER
 NOTE: I BEGAN TAKING NOTES ON SLIDE #33 (NO UDP NOTES)
