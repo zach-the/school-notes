@@ -389,6 +389,96 @@ Two Socket Types:
 ## UNIT 3: NETWORKING LAYER
 NOTE: I BEGAN TAKING NOTES ON SLIDE #33 (NO UDP NOTES)
 
+### Transport Layer Services 
+- Transport services and protocols provide logical communication between application processes running on different hosts
+- Transport protocol actions on end devices:
+    - Sender: breaks application messages into segments and then passes to the network layer
+    - Reciever: reassembles segments into messages, and then passes to the application layer 
+
+Transport vs. Network layer services and protocols 
+- Network layer: logical communication between hosts 
+- Transport layer: logical communication between processes 
+
+### Two Principal Internet Transport Protocols 
+- TCP: Transmission Control Protocol 
+    - Reliable in-order delivery
+    - congestion control
+    - flow control
+    - connection setup
+- UDP: User Datagram Protocol 
+    - unreliable, unordered delivery
+    - no-frills extension of "best-effort" IP 
+- Both do not guarantee:
+    - Delay guarantees
+    - bandwidth guarantees
+
+### Multiplexing and Demultiplexing:
+- Multiplexing at sender: Handle data from multiple sockets, add transport header (later used for demultiplexing)
+- Demultiplexing at receiver: Use header info to deliver received segments to correct socket
+- How Demultiplexing works:
+    - Host receives IP datagrams
+        - Each datagram has source IP address, and destination IP address
+        - Each datagram carries one transport-layer segment 
+        - Each segment has source, and destination port number
+    - Host uses IP addresses and port number sto direct segment to appropriate socket 
+- Connectionless Demultiplexing:
+    - When creating a datagram to send into UDP socket, must specify:
+        - Destination IP address
+        - Destination port #
+    - When receiving host receives UDP segment:
+        - checks destination port # in segment 
+        - directs UDP segment to socket with that port #
+    - In connectionless demultiplexing, datagrams with the same dest prot # but different source IP addresses and/or 
+    source port numbers will be directed to the same socket at receiving host
+    
+- Connection-oriented demultiplexing
+    - TCP socket identified by 4-tuple:
+        - source IP address
+        - source port number
+        - dest IP address
+        - dest port number
+    - demux: receiver uses all four values to direct segment to appropriate socket
+    - If processes from different IPs with the same dest port # are sent to a host, they will be demultiplexed on different 
+    sockets
+- SUMMARY:
+    - Multiplexing demultiplexing: based on segment, datagram header field values
+    - UDP: demultiplexing using destination IP and destination port number only 
+    - TCP: demultiplexing using 4-tuple: source and destination IP addresses, and port numbers
+
+### Connectionless transport: UDP 
+- Connectionless:
+    - No handshapking between UDP sender, receiver
+    - each UDP segment handled independently of others
+- So why UDP?
+    - No connection establishment which can decrease total RTT delay
+    - It's simple, there is no connection state at sender and receiver
+    - small header size
+    - UDP can blast away as fast as desired, which means it can function in the face of congestion
+- UDP use:
+    - Streaming multimedia apps 
+    - DNS
+    - SNMP
+    - HTTP/3 
+- If reliable transfer needed over UDP (e.g HTTP/3):
+    - add neede reliability and congestion control at application layer 
+    - UDP segment header:
+| 16 bits | 16 bits | #total of 32 bits wide
+| -------------- | --------------- |
+| source port # | dest port # |
+| length | checksum |
+| Payload | More Payload |
+
+- UDP checksum:
+    - Goal: detect errors such as flipped bits in transmitted segments 
+    - sender:
+        - treat contents of UDP segment as sequence of 16-bit integers
+        - checksum: addtion (one's complement sum) of segment content
+        - checksum value put into UDP checksum field
+    - Receiver:
+        - compute checksum of received segment
+        - check if computed checksum equals checksum field value, if not equal, there is an error in the data received 
+
+
 ### Principles of Reliable Data Transfer
 What logic is necessary to make sure that an unreliable channel is still usable for reliable communication?
 What should we consider?
