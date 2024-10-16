@@ -534,9 +534,68 @@ RDT 3.0: Channels with errors *and* loss
     3. sequence #'s
     4. checksums 
 
-As is, our RDT 3.0 is quite inefficient
+As is, our RDT 3.0 is quite inefficient (stop-and-wait) protocol
 - send something, have to wait a while for acknowledgment to know if sent correctly
 - pipelining is a way to make this much more effective
 - always sending, always receiving
 
+**How to implement pipelining:**
+method 1: Go-Back-N
+- sender has a 'window' of maxe size N of consecutive *transmitted-but-unACKed* packets
+    - some of these will be sent, not yet ACKed, some will be ready, not yet sent
+> concept: **cumulative ACK**:  
+> ACKs all packets up to, including seq # n  
+> on receiving ACK(n), we can assume that all packets behind seq # n have been correctly received
+    - with cumulative ACKs, you can discard or buffer out-of-order packets
+        - *ex:* if you receive packets 1, 2, and 4, you will send acknowledgements 1, 2, and then you will re-send ack(2) for packet 4. you can choose whether to hang on to packet 4 or to discard it until you receive packet # 3
+improvement: selective repeat
+- receiver individually acknowledges all received packets
+- now, packets don't have to be received in order
+- buffering is necessary, but this eliminates unecessary re-sends
+- sender:
+    - if next available seq # in window, send packet
+    - if packet[n] times out, resend packet[n] 
+    - window is based on smallest-n unACKed packet
+- receiver:
+    - if out-of-order: buffer
+    - if in-order: deliver along with other buffered, in-order packets, advance window to next 
 
+### Connection-Oriented Transport: TCP
+TCP Overview
+- point-to-point
+- reliable, in order *byte stream*:
+    - no 'message boundaries'
+- full duplex data:
+    - capable of bi-directional dataflow *on same connection*
+    - MSS: maximum segment size a device can receive in a single TCP connection
+- cumulative ACKs
+- pipelining is a thing (also there's a window size)
+- connection-oriented (handshaking is a thing that happens)
+- flow-controlled (sender cannot overwhelm receiver)
+
+**TCP Segment Structure**
+```
++------------------------------------------------------+
+| Source Port #                      | Dest Port #     |
++------------------------------------------------------+
+| Sequence Number                                      |
++------------------------------------------------------+
+| Acknowledgement Number                               |
++------------------------------------------------------+
+| HeadLen | NotUsed |C|E|U|A|P|R|S|F| Receive Window   |
++------------------------------------------------------+
+| Checksum                          | Urg data pointer |
++------------------------------------------------------+
+| Options (variable length)                            |
++------------------------------------------------------+
+|                                                      |
+| application data (variable length)                   |
+|                                                      |
++------------------------------------------------------+
+KEY:
+    A:               ACK:   seq # of next expected byte
+    R,S,F: RST, SYN, FIN:   connection management
+    Options:                TCP options
+    C, E:                   congestion notification    
+
+```
