@@ -599,3 +599,23 @@ KEY:
     C, E:                   congestion notification    
 
 ```
+
+
+#### Principles of Congestion Control?
+Congestion definition: *too many sources sending too much data too fast for the network to handle*
+Congestion symptoms:
+- long delays (queueing in router buffers)
+- packet loss (buffer overflow at routers)
+- congestion and flow control are **not the same!!!**
+causes/costs of congestions:
+- throughput can never exceed capacity
+- delay increases as you approach capacity
+- loss/retransmission decreases effective throughput
+- un-needed duplicates decrease effective throughput
+- upstream transmission capacity/buffering wasted for backets lost downstream
+
+##### approaches to congestion control
+end-end congestion control
+- no explicit feedback from network
+- congestion is inferred from observed loss, delay
+- approach taken by TCP
