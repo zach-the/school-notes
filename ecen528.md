@@ -98,4 +98,30 @@ critical is similar to mutex (read the docs)
     - local copies reduced into a single value, then combined with orig. global value
 - variables in ``list`` must be shared in the enclosing parallel region
 
+#### Ways to go Parallel: GO BACK AND REALLY COPY THESE SLIDES DOWN!!!
+Accelerated Libraries
+- BLAS
+    - Basic Linear Algebra Subprograms
+- FFTW
+    - Fastest Fourier Transform in the West
+- IPP
+    - Integrated Performance Primitives
+- LAPACK
+    - Linear Algebra Package
+    - 
+
+NVIDIA GPU Accelerated Libraries
+- there are TONS of these for lots of different applications  
+
+Compiler Directives
+- OpenMP
+- OpenACC  
+
+Programming Languages
+- CUDA(NVIDIA), HIP(AMD), OpenCL(Apple)
+- POSIX Threads
+- C++ Concurrency
+- Kokkos, RAJA
+- SYCL / DPC++  
+
 
