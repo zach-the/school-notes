@@ -619,3 +619,26 @@ end-end congestion control
 - no explicit feedback from network
 - congestion is inferred from observed loss, delay
 - approach taken by TCP
+
+##### TCP Congestion control: AIMD
+- **A**ddititve **I**ncrease **M**ultiplicative **D**ecrease
+- Approach: senders can increase sending rate until packet loss occurs, then decrease sending rate on loss event
+    - additive increase: increase sending rate by 1 maximum segment size every RTT until loss is detected
+    - multiplicative decrease: cut sending rate in half at each loss event
+
+##### TCP Slow Start
+- when connection begins, increase rate exponentially until first loss event, or until cross slow start threshold:
+    - then cut slow-start threshold in half
+    - after crossing threshold, use additive increase
+
+#### Concurrency
+concurrency = 1 system doing multiple things  
+parallelism = doing 2 things at once  
+4 major concurrency methods:
+- processes
+- threads
+- micro-threads
+    - threads not given by the OS, instead controlled by the programming language
+- async
+- thread/process pool
+    - fixed number of threads, process pool from which tasks are assigned/given to threads
