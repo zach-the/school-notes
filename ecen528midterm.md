@@ -2,10 +2,10 @@
 Flynn's Taxonomy distinguishes computer architectures based on the concept of *Instruction* and *Data* streams
 - each dimension can be classified as Single or Multiple
 - "stream" refers to a sequence or flow of either instructions or data resulding from porcessor operation
-- DOES NOT TAKE INTO CONSIDERATION THE COMPUTERS STRUCTURE  
-SISD: single instruction stream, single data stream
-SIMD: single instruction stream, multiple data stream
-MISD: multiple instruction stream, single data stream
+- DOES NOT TAKE INTO CONSIDERATION THE COMPUTERS STRUCTURE    
+SISD: single instruction stream, single data stream  
+SIMD: single instruction stream, multiple data stream  
+MISD: multiple instruction stream, single data stream  
 MIMD: multiple instruction stream, multiple data stream
 
 #### 2: Be able to contrast memory architecture types (shared, distributed, hybrid)
@@ -24,13 +24,13 @@ Shared:
 
 Distributed:
 - processors(nodes) each have their own local memory and operate independently
-- nodes are connected via a communication network. processors communicate by sending and receiving messages
+- nodes are connected via a communication network, by sending and receiving messages
 
 Hybrid:
 - shared memory is attached to a GPU/CPU
 - distributed memory is connected by networking multiple shared memory machines (nodes)
 - a node only knows about its own memory
-- netowrk communications necessary to move data from node to node
+- network communications necessary to move data from node to node
 
 #### 3: Know what constitutes Simultaneous Multithreading
 - several critical components of the processor are duplicated
@@ -147,7 +147,7 @@ Functional (Task) Parallelism
 #### 19: Given an instruction sequence, identify the type of dependency
 
 #### 20: Be able to identify parallel programming models (e.g., Threads, Message Passing, Data Parallel, etc.)
-**PROGRAMMING MODELS HAVE ABSOLUTELY NOTHING TO DO WITH HARDWARE**
+**PROGRAMMING MODELS HAVE ABSOLUTELY NOTHING TO DO WITH HARDWARE**  
 Shared Memory Segments (without threads)
 - many smaller components of physically distributed memory are combined to create the illusion of a large shared memory model
 - different processes read and write to the shared memory asynchronously (locks & other stuff necessary to prevent race conditions and deadlocks)
@@ -166,7 +166,7 @@ Hybrid
 - a hybrid model combines several of the above. a common example is a hybrid shared-distributed memory model
 
 Single Program Multiple Data
-- all tasks execut their copy of the same program, on different sets of data
+- all tasks execute their copy of the same program, on different sets of data
 
 Multiple Program Multiple Data
 - several programs or processes do different tasks on different data, or share some data
@@ -222,18 +222,18 @@ producer-consumer
     - get_id
     - hardware_concurrency [static]
     - join
-    - detach
-``std::atomic_flag`` is a thing
+    - detach  
+``std::atomic_flag`` is a thing  
 ``std::atomic<int> myAtomic(0)`` would initialize an atomic int to the value 0
-mutexes are a thing
+mutexes are a thing   
 - have to avoid deadlock: when two threads are waiting for each other to release their locks
 - class members
     - mutex
     - lock
     - try_lock (attempts mutex lock, without blocking)
     - unlock
-    - also wanna use unique_lock
+    - also wanna use unique_lock  
 **I HAVE NO IDEA HOW RAII AND CONDITION VARIABLES WORK. I NEED TO LEARN HOW THEY WORK LATER**
 - RAII philosophy is a good idea when it comes to mutexes, so you don't lose them
 - condition variables must be used with a mutex, they are used to help make the use of mutex locks smoother
-- 
+
